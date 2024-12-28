@@ -33,5 +33,31 @@
         menuDrawer.classList.remove("open");
       }
     });
+    const bars = document.querySelectorAll(".bar");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const bar = entry.target;
+            const years = bar.getAttribute("data-years");
+            const barColor = bar.getAttribute("data-colors");
+            bar.style.width = `${years * 5}%`;
+            bar.style.backgroundColor = barColor;
+          }
+        });
+      },
+      { threshold: 0.5 }
+      // 50%見えたら発火
+    );
+    bars.forEach((bar) => observer.observe(bar));
+    const items = document.querySelectorAll(".story-item");
+    const storyObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+    items.forEach((item) => storyObserver.observe(item));
   });
 })();
